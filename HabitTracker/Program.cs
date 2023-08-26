@@ -1,5 +1,7 @@
 using System.Text;
 using HabitTracker.DbContexts;
+using HabitTracker.Services;
+using HabitTracker.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
@@ -67,6 +69,10 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddIdentity<IdentityUser, IdentityRole>()
     .AddEntityFrameworkStores<HabitTrackerDbContext>()
     .AddDefaultTokenProviders();
+
+builder.Services.AddScoped<IHabitTrackerRepository, HabitTrackerRepository>();
+builder.Services.AddScoped<IHabitService, HabitService>();
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 var app = builder.Build();
 

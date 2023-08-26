@@ -1,6 +1,7 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using HabitTracker.Entities;
 using HabitTracker.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -9,14 +10,14 @@ using Microsoft.IdentityModel.Tokens;
 namespace HabitTracker.Controllers;
 
 [ApiController]
-[Route("api/account")]
-public class AccountController : ControllerBase
+[Route("api/accounts")]
+public class AccountsController : ControllerBase
 {
     private readonly IConfiguration _configuration;
     private readonly UserManager<IdentityUser> _userManager;
     private readonly SignInManager<IdentityUser> _signInManager;
 
-    public AccountController(IConfiguration configuration, UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager)
+    public AccountsController(IConfiguration configuration, UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager)
     {
         _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
         _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));

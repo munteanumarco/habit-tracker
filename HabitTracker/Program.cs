@@ -1,5 +1,9 @@
 using System.Text;
 using HabitTracker.DbContexts;
+using HabitTracker.Entities;
+using HabitTracker.Middleware;
+using HabitTracker.Repositories;
+using HabitTracker.Repositories.Interfaces;
 using HabitTracker.Services;
 using HabitTracker.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -66,7 +70,7 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
-builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<HabitTrackerDbContext>()
     .AddDefaultTokenProviders();
 
@@ -87,6 +91,8 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 
 app.UseAuthorization();
+
+app.UseMiddleware<RequestContextMiddleware>();
 
 app.MapControllers();
 

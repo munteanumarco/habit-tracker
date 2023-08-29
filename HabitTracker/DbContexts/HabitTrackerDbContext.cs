@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HabitTracker.DbContexts;
 
-public class HabitTrackerDbContext : IdentityDbContext<IdentityUser>
+public class HabitTrackerDbContext : IdentityDbContext<ApplicationUser>
 {
     public HabitTrackerDbContext(DbContextOptions<HabitTrackerDbContext> options) : base(options)
     {

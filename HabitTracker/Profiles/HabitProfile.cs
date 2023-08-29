@@ -10,7 +10,9 @@ public class HabitProfile : Profile
     {
         CreateMap<Habit, HabitDto>();
         CreateMap<HabitDto, Habit>();
-        CreateMap<HabitCreationDto, Habit>();
-        CreateMap<Habit, HabitCreationDto>();
+        CreateMap<HabitCreationWithoutUserDto, Habit>();
+        CreateMap<Habit, HabitCreationWithoutUserDto>();
+        CreateMap<HabitCreationWithUserDto, Habit>();
+        CreateMap<Habit, HabitCreationWithUserDto>();
     }
 }

@@ -14,10 +14,10 @@ namespace HabitTracker.Controllers;
 public class AccountsController : ControllerBase
 {
     private readonly IConfiguration _configuration;
-    private readonly UserManager<IdentityUser> _userManager;
-    private readonly SignInManager<IdentityUser> _signInManager;
+    private readonly UserManager<ApplicationUser> _userManager;
+    private readonly SignInManager<ApplicationUser> _signInManager;
 
-    public AccountsController(IConfiguration configuration, UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager)
+    public AccountsController(IConfiguration configuration, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
     {
         _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
         _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
@@ -27,7 +27,7 @@ public class AccountsController : ControllerBase
     [HttpPost("register")]
     public async Task<IActionResult> Register([FromBody] RegisterDto registerDto)
     {
-        var user = new IdentityUser()
+        var user = new ApplicationUser()
         {
             UserName = registerDto.Email,
             Email = registerDto.Email
@@ -56,7 +56,7 @@ public class AccountsController : ControllerBase
         return Ok(new { Token = token });
     }
     
-    private string GenerateJwtToken(IdentityUser user)
+    private string GenerateJwtToken(ApplicationUser user)
     {
         var jwtSettings = _configuration.GetSection("JwtSettings");
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings["Key"]));
@@ -68,8 +68,9 @@ public class AccountsController : ControllerBase
             jwtSettings["Audience"],
             new Claim[]
             {
-                new Claim(JwtRegisteredClaimNames.Sub, user.Email),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+                new Claim("email", user.Email),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new Claim("userId", user.Id)
             },
             expires: expires,
             signingCredentials: credentials

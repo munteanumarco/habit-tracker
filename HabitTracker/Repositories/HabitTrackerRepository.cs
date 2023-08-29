@@ -1,13 +1,12 @@
-using System.Net.Mime;
-using System.Xml;
 using AutoMapper;
 using HabitTracker.DbContexts;
 using HabitTracker.Entities;
 using HabitTracker.Models;
+using HabitTracker.Repositories.Interfaces;
 using HabitTracker.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace HabitTracker.Services;
+namespace HabitTracker.Repositories;
 
 public class HabitTrackerRepository : IHabitTrackerRepository
 {
@@ -30,9 +29,9 @@ public class HabitTrackerRepository : IHabitTrackerRepository
         return await _context.Habits.FirstOrDefaultAsync(h => h.Id == id);
     }
 
-    public async Task<HabitDto> CreateHabitAsync(HabitCreationDto habitCreationDto)
+    public async Task<HabitDto> CreateHabitAsync(HabitCreationWithUserDto habitCreationWithoutUserDto)
     {
-        var habitEntity = _mapper.Map<Habit>(habitCreationDto);
+        var habitEntity = _mapper.Map<Habit>(habitCreationWithoutUserDto);
 
         await _context.Habits.AddAsync(habitEntity);
 

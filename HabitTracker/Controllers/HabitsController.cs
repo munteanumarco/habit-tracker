@@ -41,9 +41,18 @@ public class HabitsController : ControllerBase
     }
     
     [HttpPost]
-    public async Task<IActionResult> CreateHabit([FromBody] HabitCreationDto habitCreationDto)
+    public async Task<IActionResult> CreateHabit([FromBody] HabitCreationWithoutUserDto habitCreationWithoutUserDto)
     {
-        var habit = await _habitService.CreateHabitAsync(habitCreationDto);
+        if (HttpContext.Items["userId"] is not string userId) return BadRequest("No user id present in the token");
+        
+        var habitToAdd = new HabitCreationWithUserDto()
+        {
+            Name = habitCreationWithoutUserDto.Name,
+            Description = habitCreationWithoutUserDto.Description,
+            UserId = userId
+        };
+        
+        var habit = await _habitService.CreateHabitAsync(habitToAdd);
         
         if (habit == null) return BadRequest("Habit not created");
 

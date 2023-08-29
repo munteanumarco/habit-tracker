@@ -1,6 +1,7 @@
 using AutoMapper;
 using HabitTracker.Entities;
 using HabitTracker.Models;
+using HabitTracker.Repositories.Interfaces;
 using HabitTracker.Services.Interfaces;
 
 namespace HabitTracker.Services;
@@ -28,9 +29,9 @@ public class HabitService : IHabitService
         return habit != null ? _mapper.Map<HabitDto>(habit) : null;
     }
 
-    public async Task<HabitDto?> CreateHabitAsync(HabitCreationDto habitCreationDto)
+    public async Task<HabitDto?> CreateHabitAsync(HabitCreationWithUserDto habitCreationWithoutUserDto)
     {
-        return await _repository.CreateHabitAsync(habitCreationDto);
+        return await _repository.CreateHabitAsync(habitCreationWithoutUserDto);
     }
 
     public async Task<bool> DeleteHabitAsync(int id)

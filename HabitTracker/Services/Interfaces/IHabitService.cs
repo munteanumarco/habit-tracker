@@ -7,6 +7,6 @@ public interface IHabitService
 {
     Task<IEnumerable<HabitDto>> GetHabitsAsync();
     Task<HabitDto?> GetHabitAsync(int id);
-    Task<HabitDto?> CreateHabitAsync(HabitCreationWithUserDto habitCreationWithoutUserDto);
+    Task<HabitDto?> CreateHabitAsync(HabitCreationWithoutUserDto habitCreationWithoutUserDto, string userId);
     Task<bool> DeleteHabitAsync(int id);
 }

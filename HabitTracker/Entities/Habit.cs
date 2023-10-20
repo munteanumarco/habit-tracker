@@ -13,7 +13,7 @@ public sealed class Habit
     public string Name { get; set; } = string.Empty;
     
     public string Description { get; set; } = string.Empty;
-    
+
     [Required(ErrorMessage = "Related UserId is required")]
     [ForeignKey(nameof(ApplicationUser))]
     public string UserId { get; set; }

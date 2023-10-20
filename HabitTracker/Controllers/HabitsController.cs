@@ -1,3 +1,4 @@
+using AutoMapper;
 using HabitTracker.Entities;
 using HabitTracker.Models;
 using HabitTracker.Services.Interfaces;
@@ -12,8 +13,8 @@ namespace HabitTracker.Controllers;
 public class HabitsController : ControllerBase
 {
     private readonly IHabitService _habitService;
-    
-    public HabitsController(IHabitService habitService)
+
+    public HabitsController(IHabitService habitService, IMapper mapper)
     {
         _habitService = habitService ?? throw new ArgumentNullException(nameof(habitService));
     }
@@ -43,16 +44,9 @@ public class HabitsController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> CreateHabit([FromBody] HabitCreationWithoutUserDto habitCreationWithoutUserDto)
     {
-        if (HttpContext.Items["userId"] is not string userId) return BadRequest("No user id present in the token");
-        
-        var habitToAdd = new HabitCreationWithUserDto()
-        {
-            Name = habitCreationWithoutUserDto.Name,
-            Description = habitCreationWithoutUserDto.Description,
-            UserId = userId
-        };
-        
-        var habit = await _habitService.CreateHabitAsync(habitToAdd);
+        if (HttpContext.Items["userId"] is not string userId) return BadRequest("UserId not present in the JWT");
+
+        var habit = await _habitService.CreateHabitAsync(habitCreationWithoutUserDto, userId);
         
         if (habit == null) return BadRequest("Habit not created");
 

@@ -29,9 +29,11 @@ public class HabitService : IHabitService
         return habit != null ? _mapper.Map<HabitDto>(habit) : null;
     }
 
-    public async Task<HabitDto?> CreateHabitAsync(HabitCreationWithUserDto habitCreationWithoutUserDto)
+    public async Task<HabitDto?> CreateHabitAsync(HabitCreationWithoutUserDto habitCreationWithoutUserDto, string userId)
     {
-        return await _repository.CreateHabitAsync(habitCreationWithoutUserDto);
+        var habitToCreate = _mapper.Map<HabitCreationWithUserDto>(habitCreationWithoutUserDto);
+        habitToCreate.UserId = userId;
+        return await _repository.CreateHabitAsync(habitToCreate);
     }
 
     public async Task<bool> DeleteHabitAsync(int id)

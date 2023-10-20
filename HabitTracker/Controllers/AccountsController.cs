@@ -59,7 +59,7 @@ public class AccountsController : ControllerBase
     private string GenerateJwtToken(ApplicationUser user)
     {
         var jwtSettings = _configuration.GetSection("JwtSettings");
-        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings["Key"]));
+        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings["Key"] ?? string.Empty));
         var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
         var expires = DateTime.Now.AddDays(Convert.ToDouble(jwtSettings["ExpireDays"]));
 

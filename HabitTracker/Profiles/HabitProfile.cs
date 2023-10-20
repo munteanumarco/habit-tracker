@@ -14,5 +14,6 @@ public class HabitProfile : Profile
         CreateMap<Habit, HabitCreationWithoutUserDto>();
         CreateMap<HabitCreationWithUserDto, Habit>();
         CreateMap<Habit, HabitCreationWithUserDto>();
+        CreateMap<HabitCreationWithoutUserDto, HabitCreationWithUserDto>();
     }
 }
